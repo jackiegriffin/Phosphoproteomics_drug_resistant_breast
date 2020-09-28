@@ -1,0 +1,10 @@
+﻿Name,Group
+ctrl_a,Control; untreated
+ctrl_b,Control; untreated
+ctrl_c,Control; untreated
+short_a,Short-term (3d) PI3Ki treatment
+short_b,Short-term (3d) PI3Ki treatment
+short_3,Short-term (3d) PI3Ki treatment
+long_a,Long-term (56d) PI3Ki treatment
+long_b,Long-term (56d) PI3Ki treatment
+long_c,Long-term (56d) PI3Ki treatment
