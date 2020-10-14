@@ -18,4 +18,14 @@ out <- pheatmap(heat,
                 clustering_distance_cols="euclidean", clustering_method="complete", border_color=FALSE,
                 annotation_col=metadata, legend_labels = NA, show_colnames = F, color = heat_palette)
 
+
+# Correct publication formatting below ---- 
+
+tiff ('filename.tiff', 
+         units = "in", 
+           height = 10,
+           width = 6,
+         res = 300, compression = "lzw")
+dev.off ()
+         
 ## done ----
