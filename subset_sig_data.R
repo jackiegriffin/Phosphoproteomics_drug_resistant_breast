@@ -43,17 +43,17 @@ set2<-sig_56v3$ptmsea_format
 
 venn.diagram(
   x = list(set1, set2),
-  category.names = c("LT-Control", "LT-ST"),
+  category.names = c("56 v control", "56 v 3"),
   filename = 'venn_diagram/Venn.tiff',
   imagetype="tiff" ,
-  resolution = 100,
+  resolution = 110,
   compression = "lzw",
   cex = 8,
   cat.cex=8,
   fill = c("#F0027F", "#386CB0"),
-  cat.pos = c(-50,60), 
+    cat.pos = c(-50,60), 
   cat.default.pos = "outer",
-  cat.dist = c(0.005, 0.005)
+  cat.dist = c(0.000005, 0.008)
 )
 
 
