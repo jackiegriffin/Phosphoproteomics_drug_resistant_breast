@@ -29,6 +29,8 @@ library(gplots)
 if(!require("tidyverse")) {install.packages("tidyverse")}
 library(tidyverse)
 
+# Today (11.12) Uploaded data, insalled packages. 
+# Next week, import data and run t-test analysis
 
 ## Upload data ----
 raw <- read.xlsx(xlsxFile = "with cetnred phosphosites Copy of ZR75-1FR tumor phosphoproteomics (Dec 2017)(9578) (1).xlsx",
