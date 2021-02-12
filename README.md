@@ -3,4 +3,4 @@
   - Short-term treated, drug adapted
   - Long-term treated, proliferating drug resistant 
   
-#### Objective: Identify phosphopeptides uniquely up/down in resistant tumors, perform kinase prediction and PTM-enrichment to identify active kinases driving the resistant phenotype. Probe targets for therapeutic efficacy in evading drug resistance and preventing local recurrence in pre-clinical breast cancer models.
+#### Objective: Calculate differential peptide abundance and perform kinase prediction and PTM-pathway enrichment to identify kinase activity driving the resistant phenotype. Probe targets for therapeutic efficacy in evading drug resistance and preventing local recurrence in pre-clinical breast cancer models.
