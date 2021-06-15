@@ -1,4 +1,4 @@
-## LC-MS/MS derived phosphoproteomic data from patient-derived ER+ breast tumors obtained at 3 treatment timepoints:
+# LC-MS/MS derived phosphoproteomic data from patient-derived ER+ breast tumors obtained at 3 treatment timepoints:
   - Untreated, proliferating control
   - Short-term treated, drug adapted
   - Long-term treated, proliferating drug resistant 
