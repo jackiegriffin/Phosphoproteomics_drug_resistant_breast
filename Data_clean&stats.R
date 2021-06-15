@@ -141,14 +141,9 @@
     raw_trim_complete$padjust_BH_3vctrl<-padjust_BH_3vctrl
 
     
-   
-    
-     
- # **************************  plots   ***************************************
-    
     # Heat map ----
     
-        # Cluster raw phosphopeptide abundance data ----
+        # Cluster raw phosphopeptide abundance data
           colnames(raw_trim_complete)
           
           heat <- raw_trim_complete[, 5:13]
@@ -158,12 +153,7 @@
                           cex=1, clustering_distance_cols="euclidean", clustering_method="complete", border_color=FALSE,
                           annotation_col=metadata, legend_labels = NA, show_colnames = F, color = heat_palette,
                           units = "in", height = 10, width = 6, res = 300, compression = "lzw", filename = "Output_data/heatmap.tiff")   
-  
 
-
-      
-# **************************  plots   ***************************************
-      
     
 # Reformat feature ids ----
 
@@ -219,57 +209,50 @@
                                                        raw_trim_complete_modsplit$modsites, sep = ";")
       raw_trim_complete_modsplit$ptmsea_format <- paste0(raw_trim_complete_modsplit$ptmsea_format, "-p") # add '-p' to the end of ptmsea_format col
       
- 
+
       
       
-      
-      
-      # Volcano plot (plotly)----
-      
-          # Upload data ----
-            voly_plot <- raw_trim_complete_modsplit
-            cols_i_want <-voly_plot[c("protein_modsites", "fc_56vctrl", "pvalue_56vctrl")] # gene names, FC, P-value
-            cols_i_want <- setNames(cols_i_want, c("external_gene_name", "Fold", "FDR"))
+    
+    # Volcano plot (plotly)----
+
+          voly_plot <- raw_trim_complete_modsplit
+          cols_i_want <-voly_plot[c("protein_modsites", "fc_56vctrl", "pvalue_56vctrl")] 
+          cols_i_want <- setNames(cols_i_want, c("external_gene_name", "Fold", "FDR"))
         
+          cols_i_want["group"] <- "Not Significant" # add a grouping column; default value is "not significant"
+          cols_i_want[which(cols_i_want['FDR'] < 0.05 & abs(cols_i_want['Fold']) < 1.5 ),"group"] <- "Adj. P-value <0.05"
+          cols_i_want[which(cols_i_want['FDR'] > 0.05 & abs(cols_i_want['Fold']) > 1.5 ),"group"] <- "Log2 Fold Change >1.5"
+          cols_i_want[which(cols_i_want['FDR'] < 0.05 & abs(cols_i_want['Fold']) > 1.5 ),"group"] <- "Significant"
             
-          # add a grouping column; default value is "not significant"
-            cols_i_want["group"] <- "Not Significant"
-            cols_i_want[which(cols_i_want['FDR'] < 0.05 & abs(cols_i_want['Fold']) < 1.5 ),"group"] <- "Adj. P-value <0.05"
-            cols_i_want[which(cols_i_want['FDR'] > 0.05 & abs(cols_i_want['Fold']) > 1.5 ),"group"] <- "Log2 Fold Change >1.5"
-            cols_i_want[which(cols_i_want['FDR'] < 0.05 & abs(cols_i_want['Fold']) > 1.5 ),"group"] <- "Significant"
+          top_peaks <- cols_i_want[with(cols_i_want, order(Fold, FDR)),][1:5,] # Find and label the top peaks
+          top_peaks <- rbind(top_peaks, cols_i_want[with(cols_i_want, order(-Fold, FDR)),][1:5,])
             
-          # Find and label the top peaks..
-            top_peaks <- cols_i_want[with(cols_i_want, order(Fold, FDR)),][1:5,]
-            top_peaks <- rbind(top_peaks, cols_i_want[with(cols_i_want, order(-Fold, FDR)),][1:5,])
-            
-            a <- list() # creast empty list
-            for (i in seq_len(nrow(top_peaks))) { # fill list with entries for each row in the df
-              m <- top_peaks[i, ]                 # eady list entry is another list with named items that iwll be used by Plot_ly
-              a[[i]] <- list(
-                x = m[['Fold']],
-                y = -log10(m[['FDR']]),
-                text = m[['external_gene_name']],
-                xref = "x",
-                yref = "y",
-                showarrow = FALSE,
-                arrowhead = 0.0000001,
-                ax = 20,
-                ay = -40
+          a <- list()                           # create empty list
+          for (i in seq_len(nrow(top_peaks))) { # fill list with entries for each row in the df
+            m <- top_peaks[i, ]                 
+            a[[i]] <- list(
+                          x = m[['Fold']],
+                          y = -log10(m[['FDR']]),
+                          text = m[['external_gene_name']],
+                          xref = "x",
+                          yref = "y",
+                          showarrow = FALSE,
+                          arrowhead = 0.0000001,
+                          ax = 20,
+                          ay = -40
               )
             }
             
           # Make plot
-            
-            p <- plot_ly(data = cols_i_want, type = "scatter", x = cols_i_want$Fold, y = -log10(cols_i_want$FDR), text = cols_i_want$external_gene_name, mode = "markers", 
-                         color = cols_i_want$group, size=1) %>% 
-              layout(title = "Phosphopeptide Dysregulation in PI3K Inhibitor Resistant ZR75-1 Tumors", 
-                     xaxis=list(title='Log2FC (PI3Ki Resistant - Control)'), 
-                     yaxis = list(title='-log10(p-value)')) %>% 
-              layout(annotations = a)
+            p <- plot_ly(data = cols_i_want, type = "scatter", x = cols_i_want$Fold, y = -log10(cols_i_want$FDR), 
+                         text = cols_i_want$external_gene_name, mode = "markers", color = cols_i_want$group, size=1) %>% 
+                 layout(title = "Phosphopeptide Dysregulation in PI3K Inhibitor Resistant ZR75-1 Tumors", 
+                        xaxis=list(title='Log2FC (PI3Ki Resistant - Control)'), 
+                        yaxis = list(title='-log10(p-value)')) %>% 
+                 layout(annotations = a)
             p 
             
-            
-          # to save plot to a HTML file:
+          # Save plot as HTML file
             htmlwidgets::saveWidget(as_widget(p), "Output_data/C:volcano_ploty.html")
             
 
