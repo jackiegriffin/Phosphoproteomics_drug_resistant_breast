@@ -15,3 +15,4 @@
 
 ![PTM_enrich_splitplot](https://user-images.githubusercontent.com/60406281/121994313-0db79400-cd73-11eb-812f-8130caae0157.jpeg)
 
+![PTM_enrich_splitplot_filt2](https://user-images.githubusercontent.com/60406281/121995663-507a6b80-cd75-11eb-8c70-d8e7361d0ce2.jpeg)
